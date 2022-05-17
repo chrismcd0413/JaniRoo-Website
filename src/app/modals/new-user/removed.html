@@ -1,0 +1,212 @@
+<div fxLayout="row">
+  <h3>Mailing Address</h3>
+</div>
+<div
+  fxLayout="row"
+  fxLayoutAlign="space"
+  fxLayoutGap="10px"
+  fxLayout.lt-sm="column"
+>
+  <mat-form-field fxFlex>
+    <input
+      type="text"
+      matInput
+      placeholder="Address 1"
+      formControlName="address1"
+      autocomplete="address-line1"
+    />
+  </mat-form-field>
+  <mat-form-field fxFlex>
+    <input
+      type="text"
+      matInput
+      placeholder="Address 2"
+      formControlName="address2"
+      autocomplete="address-line2"
+    />
+  </mat-form-field>
+</div>
+<div
+  fxLayout="row"
+  fxLayoutAlign="space"
+  fxLayoutGap="10px"
+  fxLayout.lt-sm="column"
+>
+  <mat-form-field fxFlex>
+    <input
+      type="text"
+      matInput
+      placeholder="City"
+      formControlName="city"
+      autocomplete="address-level2"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>State</mat-label>
+    <mat-select formControlName="state">
+      <mat-option value="AL">Alabama</mat-option>
+      <mat-option value="AK">Alaska</mat-option>
+      <mat-option value="AZ">Arizona</mat-option>
+      <mat-option value="AR">Arkansas</mat-option>
+      <mat-option value="CA">California</mat-option>
+      <mat-option value="CO">Colorado</mat-option>
+      <mat-option value="CT">Connecticut</mat-option>
+      <mat-option value="DE">Delaware</mat-option>
+      <mat-option value="DC">District Of Columbia</mat-option>
+      <mat-option value="FL">Florida</mat-option>
+      <mat-option value="GA">Georgia</mat-option>
+      <mat-option value="HI">Hawaii</mat-option>
+      <mat-option value="ID">Idaho</mat-option>
+      <mat-option value="IL">Illinois</mat-option>
+      <mat-option value="IN">Indiana</mat-option>
+      <mat-option value="IA">Iowa</mat-option>
+      <mat-option value="KS">Kansas</mat-option>
+      <mat-option value="KY">Kentucky</mat-option>
+      <mat-option value="LA">Louisiana</mat-option>
+      <mat-option value="ME">Maine</mat-option>
+      <mat-option value="MD">Maryland</mat-option>
+      <mat-option value="MA">Massachusetts</mat-option>
+      <mat-option value="MI">Michigan</mat-option>
+      <mat-option value="MN">Minnesota</mat-option>
+      <mat-option value="MS">Mississippi</mat-option>
+      <mat-option value="MO">Missouri</mat-option>
+      <mat-option value="MT">Montana</mat-option>
+      <mat-option value="NE">Nebraska</mat-option>
+      <mat-option value="NV">Nevada</mat-option>
+      <mat-option value="NH">New Hampshire</mat-option>
+      <mat-option value="NJ">New Jersey</mat-option>
+      <mat-option value="NM">New Mexico</mat-option>
+      <mat-option value="NY">New York</mat-option>
+      <mat-option value="NC">North Carolina</mat-option>
+      <mat-option value="ND">North Dakota</mat-option>
+      <mat-option value="OH">Ohio</mat-option>
+      <mat-option value="OK">Oklahoma</mat-option>
+      <mat-option value="OR">Oregon</mat-option>
+      <mat-option value="PA">Pennsylvania</mat-option>
+      <mat-option value="RI">Rhode Island</mat-option>
+      <mat-option value="SC">South Carolina</mat-option>
+      <mat-option value="SD">South Dakota</mat-option>
+      <mat-option value="TN">Tennessee</mat-option>
+      <mat-option value="TX">Texas</mat-option>
+      <mat-option value="UT">Utah</mat-option>
+      <mat-option value="VT">Vermont</mat-option>
+      <mat-option value="VA">Virginia</mat-option>
+      <mat-option value="WA">Washington</mat-option>
+      <mat-option value="WV">West Virginia</mat-option>
+      <mat-option value="WI">Wisconsin</mat-option>
+      <mat-option value="WY">Wyoming</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field fxFlex>
+    <input
+      type="text"
+      matInput
+      placeholder="Zip Code"
+      formControlName="zip"
+      autocomplete="postal-code"
+    />
+  </mat-form-field>
+</div>
+</form>
+<div fxLayout="row">
+<h3>Locations</h3>
+</div>
+<div fxLayout="column" style="border: 1px solid black; border-radius: 5px">
+<form [formGroup]="tempLocationForm" #locForm="ngForm" (ngSubmit)="addNewTempLocationPermission(locForm)">
+  <div fxLayout="Row" class="info-row">
+    <p>Add New Location</p>
+  </div>
+  <div
+    fxLayout="Row"
+    fxLayoutAlign="center center"
+    fxLayoutGap="10px"
+    class="new-loc-row"
+  >
+    <mat-form-field fxFlex class="checkboxes">
+      <mat-label>Select location</mat-label>
+      <mat-select formControlName="location">
+        <mat-optgroup *ngFor="let acct of accounts" [label]="acct.name">
+          <mat-option
+            *ngFor="let loc of acct.locationsArray"
+            [value]="generateLocationValue(loc, acct)"
+            [disabled]="disableOptionsForExistingPermissions(loc)"
+            >{{ acct.name }} - {{ loc.name }}</mat-option
+          >
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-checkbox formControlName="inventory">Inventory</mat-checkbox>
+    <mat-checkbox formControlName="inspections">Inspections</mat-checkbox>
+  </div>
+  <div
+    fxLayout="Row"
+    fxLayoutAlign="center center"
+    fxLayoutGap="10px"
+    class="new-loc-row"
+  >
+    <mat-form-field fxFlex>
+      <span matPrefix>$</span>
+      <input
+        matInput
+        type="number"
+        placeholder="Pay Amount"
+        min="0.01"
+        step="0.01"
+        formControlName="pay_rate"
+      />
+    </mat-form-field>
+    <mat-form-field fxFlex>
+      <mat-label>Pay Type</mat-label>
+      <mat-select formControlName="pay_type">
+        <mat-option value="Hourly">Hourly</mat-option>
+        <mat-option value="Weekly">Weekly</mat-option>
+        <mat-option value="Semi-Monthly">Semi-Monthly</mat-option>
+        <mat-option value="Monthly">Monthly</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button
+      mat-raised-button
+      type="submit"
+      color="accent"
+      style="height: 30px"
+      [disabled]="!tempLocationForm.valid"
+    >
+      Add
+    </button>
+  </div>
+</form>
+<div></div>
+</div>
+<mat-table [dataSource]="dataSource" *ngIf="tempLocationPermissions.length > 0">
+<ng-container matColumnDef="name">
+  <mat-header-cell *matHeaderCellDef class="table-columns" fxFlex>Location</mat-header-cell>
+  <mat-cell *matCellDef="let element" class="table-columns" fxFlex>{{ element.location.name }}</mat-cell>
+</ng-container>
+<ng-container matColumnDef="inventory">
+  <mat-header-cell *matHeaderCellDef class="table-columns" fxFlex>Inventory</mat-header-cell>
+  <mat-cell *matCellDef="let element; let i = index" class="table-columns" fxFlex>
+    <mat-checkbox #invCheckbox [checked]="element.inventory" (change)="changeValue('inventory', i, invCheckbox.checked)"></mat-checkbox>
+  </mat-cell>
+</ng-container>
+<ng-container matColumnDef="inspection">
+  <mat-header-cell *matHeaderCellDef class="table-columns" fxFlex>Inspection</mat-header-cell>
+  <mat-cell *matCellDef="let element; let i = index" class="table-columns" fxFlex>
+    <mat-checkbox #insCheckbox [checked]="element.inspection" (change)="changeValue('inspection', i, insCheckbox.checked)"></mat-checkbox>
+
+  </mat-cell>
+</ng-container>
+<ng-container matColumnDef="pay">
+  <mat-header-cell *matHeaderCellDef class="table-columns" fxFlex>Pay Rate</mat-header-cell>
+  <mat-cell *matCellDef="let element" class="table-columns" fxFlex>${{ element.pay_rate }} ({{ element.pay_type}})</mat-cell>
+</ng-container>
+<ng-container matColumnDef="actions">
+  <mat-header-cell *matHeaderCellDef class="table-columns" fxFlex="50px"></mat-header-cell>
+  <mat-cell *matCellDef="let element; let i = index" class="table-columns" fxFlex="50px">
+    <button mat-icon-button (click)="removeTempPermissions(i)"><mat-icon>delete</mat-icon></button>
+  </mat-cell>
+</ng-container>
+<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+<mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+</div>

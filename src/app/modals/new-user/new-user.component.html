@@ -1,0 +1,61 @@
+<h1 mat-dialog-title>Add New User</h1>
+  <form [formGroup]="userForm" fxLayout="column" fxLayoutGap="5px" (ngSubmit)="onSubmit()">
+    <div
+      fxLayout="row"
+      fxLayoutAlign="space"
+      fxLayoutGap="10px"
+      fxLayout.lt-sm="column"
+    >
+      <mat-form-field fxFlex>
+        <input type="text" matInput placeholder="Name" formControlName="name" />
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <input
+          type="email"
+          matInput
+          placeholder="Email"
+          formControlName="email"
+        />
+        <mat-error>Invalid or missing email</mat-error>
+      </mat-form-field>
+      <mat-form-field *ngIf="!data.editMode">
+        <input
+          type="password"
+          matInput
+          placeholder="Password"
+          formControlName="password"
+        />
+      </mat-form-field>
+    </div>
+    <div
+      fxLayout="row"
+      fxLayoutAlign="space"
+      fxLayoutGap="10px"
+      fxLayout.lt-sm="column"
+    >
+      <mat-form-field>
+        <input
+          type="tel"
+          matInput
+          placeholder="Phone Number"
+          formControlName="phone"
+          autocomplete="tel"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role">
+          <mat-option value="Admin">Admin</mat-option>
+          <mat-option value="Manager">Manager</mat-option>
+          <mat-option value="Cleaner">Cleaner</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div></div>
+      </div>
+  </form>
+
+
+<mat-dialog-actions fxLayoutAlign="end">
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!userForm.valid">Save</button>
+  <button mat-raised-button color="warn" (click)="closeDialog(false, null)">Cancel</button>
+</mat-dialog-actions>

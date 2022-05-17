@@ -1,0 +1,43 @@
+<div fxFlex fxLayout="column" fxLayoutGap="15px">
+  <div fxFlex fxLayout="row" class="headerRow" fxLayoutGap="15px" fxLayoutAlign="start center">
+    <button mat-icon-button (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+    <h2 class="headerLabel">{{ currentLocation.name }}</h2>
+    <div fxFlex></div>
+    <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="addNewInventoryItem()">Add New</button>
+      <button mat-menu-item>Save</button>
+    </mat-menu>
+</div>
+<mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.name}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="type">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.type }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+    <mat-cell *matCellDef="let element"><div [class.low_inventory]="element.low_inventory" class="blob"></div>{{ element.low_inventory ? 'Low Inventory' : 'Ok!' }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="current">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Current</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.current }} / {{ element.minimum }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="last">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Last Update</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.last_update | formatDateTZ:accounts:element.location:'M/D/YY HH:mma' }}</mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openEditDialog(row)" style="cursor: pointer"></mat-row>
+</mat-table>
+
+<mat-paginator #paginator
+[pageSize]="10"
+[pageSizeOptions]="[10,25,50]">
+
+</mat-paginator>
+
+</div>

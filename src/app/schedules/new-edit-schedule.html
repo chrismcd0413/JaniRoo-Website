@@ -1,0 +1,129 @@
+<h1 mat-dialog-title>{{ title }} Schedule</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form" fxLayout="column" fxLayoutGap="15px">
+    <mat-radio-group
+      color="primary"
+      value="trad"
+      required="true"
+      style="padding-top: 15px"
+      formControlName="type"
+    >
+      <mat-radio-button value="trad" disableRipple="true"
+        >Traditional</mat-radio-button
+      >
+      <mat-radio-button class="editRadio" value="flex" disableRipple="true"
+        >Flex</mat-radio-button
+      >
+    </mat-radio-group>
+    <div fxFlex fxLayoutGap="15px" fxLayoutAlign="start center">
+      <mat-label fxFlex="50px">{{ form.value.type === 'trad' ? 'Start' : 'After'}}: </mat-label>
+      <mat-form-field fxFlex>
+        <mat-label>Date</mat-label>
+        <input
+          matInput
+          [min]="today"
+          [matDatepicker]="startPicker"
+          readonly="true"
+          formControlName="sDate"
+          (change)="addOneYear(form.value.sDate)"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="startPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>{{ form.value.type === 'trad' ? 'Start Time' : 'After Time'}}</mat-label>
+        <input matInput type="time" formControlName="sTime" />
+      </mat-form-field>
+    </div>
+    <div fxFlex fxLayoutGap="15px" fxLayoutAlign="start center">
+      <mat-label fxFlex="50px">{{ form.value.type === 'trad' ? 'End' : 'Before'}}: </mat-label>
+      <mat-form-field>
+        <mat-label>Date</mat-label>
+        <input
+          matInput
+          [min]="form.value.sDate"
+          [matDatepicker]="endPicker"
+          readonly
+          formControlName="eDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="endPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ form.value.type === 'trad' ? 'End Time' : 'Before Time'}}</mat-label>
+        <input matInput type="time"  formControlName="eTime" />
+      </mat-form-field>
+    </div>
+    <mat-checkbox color="primary" formControlName="repeat" (change)="repeatChanged($event)" *ngIf="data.editMode === false">Repeat</mat-checkbox>
+    <div fxLayout="column" fxLayoutGap="15px" *ngIf="form.value.repeat === true">
+      <mat-button-toggle-group
+      name="ingredients"
+      aria-label="Ingredients"
+      multiple
+      #repeatDays
+      (change)="buttonToggleChange($event)"
+      formControlName="repeatDays"
+    >
+      <mat-button-toggle fxFlex value="1">Mon</mat-button-toggle>
+      <mat-button-toggle fxFlex value="2">Tue</mat-button-toggle>
+      <mat-button-toggle fxFlex value="3">Wed</mat-button-toggle>
+      <mat-button-toggle fxFlex value="4">Thu</mat-button-toggle>
+      <mat-button-toggle fxFlex value="5">Fri</mat-button-toggle>
+      <mat-button-toggle fxFlex value="6">Sat</mat-button-toggle>
+      <mat-button-toggle fxFlex value="0">Sun</mat-button-toggle>
+    </mat-button-toggle-group>
+    <div fxFlex fxLayoutGap="15px">
+      <mat-form-field fxFlex>
+        <mat-select #frequency
+        formControlName="frequency">
+          <mat-option value="1">Every Week</mat-option>
+          <mat-option value="2">Every 2 Weeks</mat-option>
+          <mat-option value="3">Every 3 Weeks</mat-option>
+          <mat-option value="4">Every 4 Weeks</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Repeat Until</mat-label>
+        <input
+          matInput
+          [min]="form.value.sDate"
+          [max]="maxRepeatDate"
+          [matDatepicker]="repeatPicker"
+          readonly="true"
+          #repeatUntil
+          formControlName="repeatUntil"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="repeatPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #repeatPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    </div>
+
+    <mat-form-field>
+      <mat-select  formControlName="location" placeholder="Choose location" (valueChange)="changedLocation($event)">
+        <mat-optgroup *ngFor="let a of accounts" [label]="a.name">
+          <mat-option *ngFor="let l of a.locations" [value]="formatLocationValue(a.id, l.id)">{{ l.name }}</mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select formControlName="user" placeholder="Choose cleaner">
+        <mat-option *ngFor="let u of activeUsers" [value]="u.id">{{ u.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end">
+  <button mat-button color="primary" (click)="save()" [disabled]="form.invalid" *ngIf="!disableActions">Save</button>
+  <button mat-button color="warn" *ngIf="!data.editMode || disableActions" (click)="close()">Cancel</button>
+  <button mat-button color="warn" *ngIf="data.editMode && !disableActions" (click)="deleteSchedule()">Delete</button>
+</div>

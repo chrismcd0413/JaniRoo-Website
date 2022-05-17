@@ -1,0 +1,65 @@
+<div fxFlexFill fxLayout="column">
+  <div fxFlex.gt-sm="72px" fxFlex.lt-md="200px" fxLayout="row" fxLayout.lt-md="column" class="header-controls" fxLayoutGap.lt-md="15px" fxLayoutAlign.gt-sm="center center">
+    <div fxLayout="column" fxFlex>
+      <select #select fxFlex="50px" fxFlexAlign="start center" (change)="setLocation($event)" style="height: 50px;">
+        <option selected disabled hidden value="false">Select a location</option>
+        <optgroup *ngFor="let a of accounts" [label]="a.name">
+          <option *ngFor="let l of a.locations" [value]="formatLocation(a, l)">{{ a.name }} - {{ l.name }}</option>
+        </optgroup>
+      </select>
+    </div>
+    <div fxFlex fxLayout="column">
+      <div fxFlex fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="flex-end" fxLayoutAlign.lt-md="flex-start" fxLayoutGap.lt-md="15px">
+        <mat-button-toggle-group [(ngModel)]="calType" (change)="changeCalType($event)" class="calType">
+          <mat-button-toggle value="monthly">Month</mat-button-toggle>
+          <mat-button-toggle value="weekly">Week</mat-button-toggle>
+          <mat-button-toggle value="daily">Day</mat-button-toggle>
+          <mat-button-toggle value="list">List</mat-button-toggle>
+        </mat-button-toggle-group>
+        <div fxLayout="row" style="max-height: 50px;">
+          <div fxLayout="column" class="date-div">
+            <div fxLayout="row" fxFlex>
+              <div fxLayout="column" class="nav-button">
+                <button
+                fxFlex
+                  mat-icon-button
+                  (click)="calPrevious()"
+                >
+                  <mat-icon>chevron_left</mat-icon>
+                </button>
+              </div>
+              <div fxFlex fxLayout="column" fxlayoutAlign="center">
+                <div fxFlex fxLayout="row">
+                  <mat-label class="date-label">{{ [dateRangeLabel] }}</mat-label>
+                </div>
+              </div>
+              <div fxLayout="column"  class="nav-button">
+                <button
+                fxFlex
+                fxFlexAlign="end"
+                  mat-icon-button
+                  (click)="calForward()"
+                >
+                  <mat-icon>chevron_right</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <button mat-mini-fab color="primary" (click)="openNewSchedule()">
+            <mat-icon>add</mat-icon>
+          </button>
+          <!-- <mat-menu #menu="matMenu">
+            <mat-checkbox (click)="$event.stopPropagation();" class="example-margin">Check me!</mat-checkbox>
+            <mat-calendar style="width: 200px;" (click)="$event.stopPropagation();" (selectedChange)="calendarDateSelected($event)"></mat-calendar>
+
+          </mat-menu> -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div fxFlex="grow" fxLayout="column" style="padding: 32px;">
+    <full-calendar #cal [options]="calendarOptions"></full-calendar>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav role="navigation" [autoFocus]="false">
+    <app-side-nav (closeSidenav)="sidenav.close()"></app-side-nav>
+  </mat-sidenav>
+<mat-sidenav-content fxFlex fxLayout="column">
+  <app-header (sidenavToggle)="sidenav.toggle()" *ngIf="showHeader" class="fixedMatHeader"></app-header>
+  <main fxFlex >
+    <router-outlet></router-outlet>
+  </main>
+</mat-sidenav-content>
+</mat-sidenav-container>

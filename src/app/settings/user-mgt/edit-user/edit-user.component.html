@@ -1,0 +1,154 @@
+<div fxFlex fxLayout="column">
+  <div fxFlex fxLayout="row" class="header-controls">
+    <div fxLayout="column">
+      <button mat-icon-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+    <div fxFlex fxLayout="column">
+      <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="10px">
+        <button mat-raised-button color="primary" (click)="saveUserProfile()">Save</button>
+        <button mat-raised-button color="warn" (click)="archiveUser()">Archive</button>
+      </div>
+    </div>
+  </div>
+  <div fxFlex fxLayout="row">
+    <div fxFlex fxLayout="column" class="com-body" fxLayoutGap="20px">
+      <div fxFlex fxLayout="row">
+        <h3>User Details</h3>
+      </div>
+
+      <form fxFlex [formGroup]="detailsForm" fxLayout="column" fxLayoutGap="15px">
+        <div
+          fxFlex
+          fxLayout="row wrap"
+          fxLayoutGap="25px"
+          fxLayout.lt-sm="column"
+          fxLayoutGap.lt-sm="10px"
+        >
+          <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Name" formControlName="name" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Phone Number</mat-label>
+            <input
+              matInput
+              placeholder="Phone Number"
+              formControlName="phone"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Role</mat-label>
+            <mat-select
+              formControlName="role"
+              
+            >
+              <mat-option
+                value="Owner"
+                *ngIf="profile.role === 'Owner'"
+                [disabled]="profile.role != 'Owner'"
+                >Owner</mat-option
+              >
+              <mat-option value="Admin" [disabled]="profile.role === 'Owner'"
+                >Admin</mat-option
+              >
+              <mat-option value="Manager" [disabled]="profile.role === 'Owner'"
+                >Manager</mat-option
+              >
+              <mat-option value="Cleaner" [disabled]="profile.role === 'Owner'"
+                >Cleaner</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+      <div fxFlex fxLayout="row">
+        <button mat-raised-button color="accent" fxFlex.lt-sm="100%" (click)="openResetPassword()">
+          Reset Password
+        </button>
+      </div>
+      <div fxFlex fxLayout="row">
+        <h3>Mailing Address</h3>
+      </div>
+      <div
+        fxFlex
+        fxLayout="row wrap"
+        fxLayoutGap="25px"
+        fxLayout.lt-sm="column"
+        fxLayoutGap.lt-sm="10px"
+      >
+        <mat-form-field appearance="outline">
+          <mat-label>Address 1</mat-label>
+          <input
+            matInput
+            placeholder="1000 Main St"
+            formControlName="a1"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Address 2</mat-label>
+          <input
+            matInput
+            placeholder="Suite 123"
+            formControlName="a2"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>City</mat-label>
+          <input
+            matInput
+            placeholder="Fort Worth"
+            formControlName="city"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>State</mat-label>
+          <input
+            matInput
+            placeholder="Texas"
+            formControlName="state"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Zip</mat-label>
+          <input
+            matInput
+            placeholder="76001"
+            formControlName="zip"
+          />
+        </mat-form-field>
+      </div>
+    </form>
+      <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+        <h3 fxFlex>Locations</h3>
+        <button mat-mini-fab color="primary" (click)="openNewLocation()"><mat-icon>add</mat-icon></button>
+      </div>
+      <div fxFlex fxLayout="row">
+        <mat-table #table [dataSource]="dataSource" matSort fxFlex>
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ getLocationName(element.location) }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef>Inventory</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.inventory === true ? 'Enabled' : 'Disabled' }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="phone">
+            <mat-header-cell *matHeaderCellDef>Inspections</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.inspection === true ? 'Enabled' : 'Disabled' }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="role">
+            <mat-header-cell *matHeaderCellDef>Pay Rate</mat-header-cell>
+            <mat-cell *matCellDef="let element">${{ element.pay_rate }} {{ element.pay_frequency }}</mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" (click)="openEditDialog(row, i)" style="cursor: pointer"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>
+</div>

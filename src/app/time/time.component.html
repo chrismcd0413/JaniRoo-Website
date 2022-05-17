@@ -1,0 +1,66 @@
+<div fxFlex fxLayout="column" fxLayoutGap="15px">
+  <div fxFlex fxLayout="row" class="headerRow" fxLayoutGap="15px" fxLayoutAlign="start center">
+    <h2>Timesheets</h2>
+</div>
+  <form fxFlex fxLayout="row" class="headerRow" fxLayoutGap="15px" fxLayoutAlign="start center" [formGroup]="searchForm">
+    <mat-form-field fxFlex>
+      <mat-label>Filter</mat-label>
+      <input matInput formControlName="filter">
+    </mat-form-field>
+    <mat-form-field fxFlex class="locationInput">
+      <mat-label>Location</mat-label>
+      <mat-select formControlName="location">
+        <mat-option [value]="false">All Locations</mat-option>
+        <mat-optgroup *ngFor="let acct of accounts" [label]="acct.name">
+          <mat-option *ngFor="let loc of acct.locations" [value]="{acct: acct.id, loc: loc.id}">{{ loc.name }}</mat-option>
+        </mat-optgroup>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field fxFlex class="dateInputs">
+      <mat-label>Start</mat-label>
+      <input matInput readonly [matDatepicker]="start" formControlName="start">
+      <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+      <mat-datepicker #start></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field fxFlex class="dateInputs">
+      <mat-label>End</mat-label>
+      <input matInput readonly [matDatepicker]="end" formControlName="end">
+      <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+      <mat-datepicker #end></mat-datepicker>
+    </mat-form-field>
+    <button mat-mini-fab color="primary" (click)="openNewTimesheetDialog()"><mat-icon>add</mat-icon></button>
+  </form>
+<mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.user | getUserName:users }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="location">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{ element.location | locationName:accounts:false }}
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="in">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>In</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.clock_in_time | formatDateTZ:accounts:element.location:'M/D/YY h:mm a' }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="out">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Out</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.clock_out_time | formatDateTZ:accounts:element.location:'M/D/YY h:mm a' }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="hrs">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Hours</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.hrs_worked }}</mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openEditDialog(row)" style="cursor: pointer"></mat-row>
+</mat-table>
+
+<mat-paginator #paginator
+[pageSize]="10"
+[pageSizeOptions]="[10,25,50]">
+
+</mat-paginator>
+
+</div>

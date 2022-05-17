@@ -1,0 +1,176 @@
+<div fxFlex fxLayout="column">
+  <div fxFlex fxLayout="row" class="header-title">
+    <h2>Dashboard</h2>
+  </div>
+  <div class="grouping" fxLayout="row wrap" fxLayoutGap="16px grid">
+    <div fxFlex="50%" fxFlex.lt-md="100%" fxFlex.gt-md="33%">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title> Scheduled Today </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="scheduled-today-container" fxLayout="column">
+            <div fxLayout="column" fxFlexFill fxLayoutAlign="center center" *ngIf="noResultsSchedules === 0">
+              <p class="no-results">No Schedules</p>
+            </div>
+            <div fxFlex fxLayout="column" *ngIf="noResultsSchedules > 0">
+            <div class="location-container" fxFlex fxLayout="column" *ngFor="let loc of todaysSchedules | keyvalue; let i = index">
+              <div fxLayout="row" class="location-header">
+                <mat-label class="location-label"
+                  >{{ loc.key | locationName: accounts:true }}</mat-label
+                >
+              </div>
+              <div class="location-table" fxLayout="column">
+                <div fxLayout="row" class="schedule-item" *ngFor="let schedule of todaysSchedules[loc.key]">
+                  <div fxFlex fxLayout="column" fxLayoutAlign="center start">
+                    <p class="cleaner-name">{{ schedule.cleaner | getUserName: coUsers }}</p>
+                  </div>
+                  <div fxFlex fxLayout="column" fxLayoutGap="10px">
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+                      <mat-icon style="width: 15px; height: 15px; font-size: 15px; margin-right: 10px;">calendar_today</mat-icon>
+                      <mat-label fxFlex>{{ schedule.start_date | formatDateTZ: accounts: schedule.location:'h:mma' }} - {{ schedule.end_date | formatDateTZ: accounts: schedule.location:'h:mma' }}</mat-label>
+                    </div>
+                    <div fxFlex fxLayout="row" fxLayoutAlign="start center" class="timesheet-row" *ngFor="let ts of getTimesheetsForLocation(schedule.cleaner, schedule.location)">
+                      <mat-icon  style="width: 15px; height: 15px; font-size: 15px; margin-right: 10px;">schedule</mat-icon>
+                      <mat-label fxFlex>{{ ts.clock_in_time | formatDateTZ: accounts: ts.location: 'h:mma' }} - {{ !ts.clock_out_time ? 'On-Duty' : ts.clock_out_time | formatDateTZ: accounts: schedule.location:'h:mma'  }}</mat-label>
+                    </div>
+                  </div>
+                  <div [class]="getUserClockInStatus(schedule.cleaner, schedule.location)"></div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex="50%" fxFlex.lt-md="100%" fxFlex.gt-md="33%">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Low Inventory</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxFlex class="scheduled-today-container">
+            <div fxLayout="column" fxFlexFill fxLayoutAlign="center center" *ngIf="noResultsLowInventory === 0">
+              <p class="no-results">No Low Inventory Items</p>
+            </div>
+            <div fxFlex fxLayout="column" *ngIf="noResultsLowInventory > 0">
+              <div class="location-container" fxFlex fxLayout="column" *ngFor="let loc of lowInventoryItems | keyvalue">
+                <div fxLayout="row" class="location-header">
+                  <mat-label class="location-label"
+                    >{{ loc.key | locationName: accounts:true }}</mat-label
+                  >
+                </div>
+                <div class="location-table" fxLayout="column">
+                  <div fxLayout="row" class="schedule-item" *ngFor="let item of lowInventoryItems[loc.key]">
+                    <mat-label fxFlex>{{ item.name }}</mat-label>
+                    <mat-label fxFlex>Current: {{ item.current }}</mat-label>
+                    <mat-label fxFlex>Min: {{ item.minimum }}</mat-label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-button color="primary" [routerLink]="['/', 'inventory']">Go To Inventory</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div fxFlex="50%" fxFlex.lt-md="100%" fxFlex.gt-md="33%">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title> Recurring Checklists </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxFlex class="scheduled-today-container">
+            <div fxLayout="column" fxFlexFill fxLayoutAlign="center center" *ngIf="noResultsRecurringChecklist === 0">
+              <p class="no-results">No Active Recurring Checklists</p>
+            </div>
+            <div fxFlex fxLayout="column" *ngIf="noResultsRecurringChecklist > 0">
+              <div class="location-container" fxFlex fxLayout="column" *ngFor="let loc of activeRecurringChecklists | keyvalue">
+
+                <div fxLayout="row" class="location-header">
+                  <mat-label class="location-label"
+                    >{{ loc.key | locationName: accounts:true }}</mat-label
+                  >
+                </div>
+                <div class="location-table" fxLayout="column">
+                  <div fxLayout="row" class="checklist-item" *ngFor="let checklist of activeRecurringChecklists[loc.key]" (click)="openChecklistViewer(checklist)">
+                    <div fxFlex fxLayout="column" fxLayoutAlign="center start">
+                      <p class="cleaner-name">{{ checklist.title }} ({{ checklist.type }})</p>
+                    </div>
+                    <div fxLayout="column" fxLayoutAlign="center end">
+                      <p class="progress-text">{{ checklist.tasks | checklistProgress }}%</p>
+                    </div>
+                    <mat-progress-spinner
+                      class="checklist-progress"
+                      color="primary"
+                      mode="determinate"
+                      value="{{ checklist.tasks | checklistProgress }}"
+                      diameter="40"
+                    >
+                    </mat-progress-spinner>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div fxFlex="50%" fxFlex.lt-md="100%" fxFlex.gt-md="33%">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title> Daily Checklists </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxFlex fxLayout="column" class="scheduled-today-container">
+            <div fxLayout="row"  fxFlex fxLayoutAlign="center center"  *ngIf="noResultsDailyChecklist == 0">
+              <p class="no-results">No Daily Checklists</p>
+            </div>
+            <div fxFlex fxLayout="column" *ngIf="noResultsDailyChecklist > 0">
+              <div class="location-container" fxFlex fxLayout="column" *ngFor="let loc of activeDailyChecklists | keyvalue">
+
+                <div fxLayout="row" class="location-header">
+                  <mat-label class="location-label"
+                    >{{ loc.key | locationName: accounts:true }}</mat-label
+                  >
+                </div>
+                <div class="location-table" fxLayout="column">
+                  <div fxLayout="row" class="checklist-item" *ngFor="let checklist of activeDailyChecklists[loc.key]">
+                    <div fxFlex fxLayout="column" fxLayoutAlign="center start">
+                      <p class="cleaner-name">{{ checklist.title }} ({{ checklist.user | getUserName: coUsers }})</p>
+                    </div>
+                    <div fxLayout="column" fxLayoutAlign="center end">
+                      <p class="progress-text">{{ checklist.tasks | checklistProgress }}%</p>
+                    </div>
+                    <mat-progress-spinner
+                      class="checklist-progress"
+                      color="primary"
+                      mode="determinate"
+                      value="{{ checklist.tasks | checklistProgress }}"
+                      diameter="40"
+                    >
+                    </mat-progress-spinner>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <!-- <div fxFlex="50%" fxFlex.lt-md="100%" fxFlex.gt-md="33%">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title> Current Payrolls </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>This is where the table will go</mat-card-content>
+      </mat-card>
+    </div> -->
+  </div>
+
+</div>

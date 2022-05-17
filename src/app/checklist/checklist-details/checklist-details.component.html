@@ -1,0 +1,44 @@
+<div fxFlex fxLayout="column" fxLayoutGap="15px">
+  <div fxFlex fxLayout="row" class="header-controls" fxLayoutGap="15px" fxLayoutAlign="start">
+    <button mat-icon-button (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+    <div fxFlex></div>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="saveChecklist()">Save</button>
+      <button mat-menu-item (click)="editChecklistDetails()">Edit Details</button>
+      <button mat-menu-item (click)="openCopyChecklist()">Copy Tasks From Existing Checklist</button>
+      <button mat-menu-item (click)="archiveChecklist()">Archive</button>
+    </mat-menu>
+</div>
+<div fxFlex fxLayout="row" fxLayoutAlign="start center" class="filter-row">
+<p fxFlex class="checklist-title">{{ checklist.title }}</p>
+<button mat-mini-fab color="primary" (click)="openNewDialog()"><mat-icon>add</mat-icon></button>
+</div>
+<div fxFlex fxLayout="row" class="filter-row">
+  <mat-table [dataSource]="dataSource" fxFlex cdkDropList (cdkDropListDropped)="reorderSubtask($event)">
+    <ng-container matColumnDef="order">
+      <mat-header-cell *matHeaderCellDef>Order</mat-header-cell>
+      <mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}.</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Task</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.title}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.description ? element.description : 'N/A' }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="subtask">
+      <mat-header-cell *matHeaderCellDef>Subtasks</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.subtasks.length }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="photo">
+      <mat-header-cell *matHeaderCellDef><mat-icon>photo_camera</mat-icon></mat-header-cell>
+      <mat-cell *matCellDef="let element"><mat-icon *ngIf="element.photo_required">photo_camera</mat-icon></mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openEditDialog(row)" class="taskRow" cdkDrag></mat-row>
+  </mat-table>
+</div>
+</div>

@@ -1,0 +1,50 @@
+<h1 mat-dialog-title>{{ title }} Timesheet</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form" fxLayout="column" fxLayoutGap="15px" fxFlex>
+    <div fxLayout="row" fxLayoutGap="15px" fxFlex>
+      <mat-form-field fxFlex>
+        <mat-label>User</mat-label>
+        <mat-select formControlName="user">
+          <mat-option *ngFor="let u of users" [value]="u.id">{{ u.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Location</mat-label>
+        <mat-select formControlName="location" [compareWith]="compareObjects">
+          <mat-optgroup *ngFor="let acct of accounts" [label]="acct.name">
+            <mat-option *ngFor="let loc of acct.locations" [value]="{acct: acct.id, loc: loc.id}">{{ loc.name }}</mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="15px" fxFlex>
+      <mat-form-field fxFlex>
+        <mat-label>Clock In Date</mat-label>
+        <input matInput readonly [matDatepicker]="start" formControlName="inDate">
+        <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+        <mat-datepicker #start></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Clock In Time</mat-label>
+        <input matInput type="time" formControlName="inTime">
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="15px" fxFlex>
+      <mat-form-field fxFlex>
+        <mat-label>Clock Out Date</mat-label>
+        <input matInput readonly [matDatepicker]="end" formControlName="outDate">
+        <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+        <mat-datepicker #end></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Clock Out Time</mat-label>
+        <input matInput type="time" formControlName="outTime">
+      </mat-form-field>
+    </div>
+   </form>
+</div>
+<div mat-dialog-actions fxLayoutAlign="end">
+  <button mat-button color="primary" (click)="save()" [disabled]="form.invalid">Save</button>
+  <button mat-button color="warn" *ngIf="!data.editMode" (click)="close()">Cancel</button>
+  <button mat-button color="warn" *ngIf="data.editMode" (click)="deleteTimesheet()">Delete</button>
+</div>

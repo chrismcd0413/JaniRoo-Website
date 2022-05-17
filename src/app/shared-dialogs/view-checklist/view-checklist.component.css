@@ -1,0 +1,21 @@
+.checklist-container {
+  border: 1px solid black;
+  border-radius: 4px;
+  max-height: 650px;
+  overflow: scroll;
+  min-width: 400px;
+}
+.checklist-item-row {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+.subtask-column {
+  margin-left: 20%;
+  margin-right: 8px;
+}
+.task-title {
+  margin: 0px;
+}
+.task-desc {
+  margin: 0px;
+}

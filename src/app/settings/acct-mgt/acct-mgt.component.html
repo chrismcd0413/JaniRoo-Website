@@ -1,0 +1,31 @@
+<div fxLayout="row" fxLayoutGap="15px" style="padding: 15px;">
+  <mat-form-field fxFlex="100%">
+    <input matInput type="text" #filterInput (keyup)="doFilter(filterInput.value)" placeholder="Search Accounts" autocomplete="off">
+  </mat-form-field>
+  <button mat-mini-fab color="primary">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.name}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Mailing Address</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.details.address.formatted_address }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="phone">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Locations</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ formatLocations(element.locations) }}</mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openEditDialog(row)" style="cursor: pointer"></mat-row>
+</mat-table>
+
+<mat-paginator #paginator
+[pageSize]="10"
+[pageSizeOptions]="[5,10,20]">
+
+</mat-paginator>

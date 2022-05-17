@@ -1,0 +1,35 @@
+<mat-nav-list>
+  <img src="../../assets/Logo/1.svg"/>
+  <a mat-list-item routerLinkActive="activeNav" routerLink="/dashboard" (click)="onClose()">
+    <mat-icon>dashboard</mat-icon>
+    <span class="nav-caption">Dashboard</span>
+  </a>
+  <a mat-list-item routerLinkActive="activeNav" routerLink="/schedules" (click)="onClose()">
+    <mat-icon>date_range</mat-icon>
+    <span class="nav-caption">Schedules</span>
+  </a>
+  <a mat-list-item routerLinkActive="activeNav" routerLink="/checklists" (click)="onClose()">
+    <mat-icon>checklist</mat-icon>
+    <span class="nav-caption">Checklist Manager</span>
+  </a>
+  <a mat-list-item routerLinkActive="activeNav" routerLink="/timesheets" (click)="onClose()">
+    <mat-icon>timer</mat-icon>
+    <span class="nav-caption">Time</span>
+  </a>
+  <a mat-list-item routerLinkActive="activeNav" routerLink="/signup" (click)="onClose()">
+    <mat-icon>local_atm</mat-icon>
+    <span class="nav-caption">Payroll</span>
+  </a>
+  <a mat-list-item routerLinkActive="activeNav" routerLink="/inventory" (click)="onClose()">
+    <mat-icon>cleaning_services</mat-icon>
+    <span class="nav-caption">Inventory</span>
+  </a>
+  <a mat-list-item routerLinkActive="activeNav" routerLink="/settings" (click)="onClose()">
+    <mat-icon>settings</mat-icon>
+    <span class="nav-caption">Settings</span>
+  </a>
+  <a mat-list-item (click)="onLogOut()">
+    <mat-icon>logout</mat-icon>
+    <span class="nav-caption">Logout</span>
+  </a>
+</mat-nav-list>

@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>Unsaved Changes</h1>
+<div mat-dialog-content>You have unsaved changes. Would you like to save and continue?</div>
+<div mat-dialog-actions fxLayoutAlign="end">
+  <button mat-button color="primary" (click)="closeAndSave()">Save</button>
+  <button mat-button color="warn" (click)="closeAndCancel()">No, Go Back</button>
+</div>

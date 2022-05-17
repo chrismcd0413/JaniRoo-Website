@@ -1,0 +1,33 @@
+<h1 mat-dialog-title>{{ title }} Inventory Item</h1>
+<mat-dialog-content>
+  <form [formGroup]="form" fxFlex fxLayout="column" fxLayoutGap="15px">
+    <div fxFlex fxLayoutGap="15px" fxLayout.lt-sm="column">
+      <mat-form-field>
+        <mat-label>Item Name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Item Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="Equipment">Equipment</mat-option>
+          <mat-option value="Supplies">Supplies</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex fxLayoutGap="15px" fxLayout.lt-sm="column">
+      <mat-form-field>
+        <mat-label>Current Quantity</mat-label>
+        <input matInput formControlName="current" type="number">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Minimum Quantity</mat-label>
+        <input matInput formControlName="minimum" type="number">
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutAlign="end">
+  <button mat-button color="primary" [disabled]="form.invalid" (click)="save()">Save</button>
+  <button mat-button color="warn" *ngIf="!data.editMode" (click)="cancel()">Cancel</button>
+  <button mat-button color="warn" *ngIf="!data.editMode" (click)="delete()">Delete</button>
+</mat-dialog-actions>

@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Copy From Existing Checklist</h1>
+<mat-dialog-content>
+<form [formGroup]="form" fxFlex fxLayout="column" fxLayoutGap="20px">
+  <mat-form-field>
+    <mat-label>Select Checklist</mat-label>
+    <mat-select formControlName="checklist">
+      <mat-optgroup *ngFor="let location of formattedList" [label]="location.name">
+        <mat-option *ngFor="let list of location.checklists" [value]="list.id">{{ list.title }} ({{ list.type }}) - {{ list.tasks.length }} Tasks</mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+  <mat-radio-group formControlName="options">
+    <mat-radio-button value="merge">Merge with existing tasks</mat-radio-button>
+    <mat-radio-button value="overwrite">Overwrite existing tasks</mat-radio-button>
+  </mat-radio-group>
+</form>
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutAlign="end">
+  <button mat-button color="primary" [disabled]="form.invalid" (click)="closeAndCopy()">Copy</button>
+  <button mat-button color="warn" (click)="cancel()">Cancel</button>
+</mat-dialog-actions>

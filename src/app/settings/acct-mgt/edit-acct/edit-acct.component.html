@@ -1,0 +1,167 @@
+<div fxFlex fxLayout="column">
+  <div fxFlex fxLayout="row" class="header-controls">
+    <div fxLayout="column">
+      <button mat-icon-button (click)="goBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+    <div fxFlex fxLayout="column">
+      <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" fxLayoutGap="10px">
+        <button mat-raised-button color="primary" (click)="saveAccountData()">Save</button>
+        <button mat-raised-button color="warn">Archive</button>
+      </div>
+    </div>
+  </div>
+  <div fxFlex fxLayout="row">
+    <div fxFlex fxLayout="column" class="com-body" fxLayoutGap="20px">
+      <div fxFlex fxLayout="row">
+        <h3>Details</h3>
+      </div>
+
+      <form fxFlex [formGroup]="detailsForm" fxLayout="column">
+        <div
+          fxFlex
+          fxLayout="row wrap"
+          fxLayoutGap="25px"
+          fxLayout.lt-sm="column"
+          fxLayoutGap.lt-sm="10px"
+        >
+          <mat-form-field appearance="outline">
+            <mat-label>Account Name</mat-label>
+            <input
+              matInput
+              placeholder="Account Name"
+              formControlName="aname"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Contact Name</mat-label>
+            <input
+              matInput
+              placeholder="Contact Name"
+              formControlName="cname"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Contact Phone Number</mat-label>
+            <input
+              matInput
+              placeholder="Contact Phone Number"
+              formControlName="cphone"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Contact Email</mat-label>
+            <input
+              matInput
+              placeholder="Contact Email"
+              formControlName="cemail"
+            />
+          </mat-form-field>
+        </div>
+        <div
+        fxFlex
+          fxLayout="row wrap"
+          fxLayoutGap="25px"
+          fxLayout.lt-sm="column"
+          fxLayoutGap.lt-sm="10px"
+        >
+          <mat-form-field appearance="outline" fxFlex.lt-sm fxFlex="300px">
+            <mat-label>Account Notes</mat-label>
+            <textarea
+              matInput
+              placeholder="Account Notes"
+              formControlName="notes"
+            ></textarea>
+          </mat-form-field>
+        </div>
+        <div fxFlex fxLayout="row">
+          <h3>Mailing Address</h3>
+        </div>
+        <div
+          fxFlex
+          fxLayout="row wrap"
+          fxLayoutGap="25px"
+          fxLayout.lt-sm="column"
+          fxLayoutGap.lt-sm="10px"
+        >
+          <mat-form-field appearance="outline">
+            <mat-label>Address 1</mat-label>
+            <input
+              matInput
+              placeholder="1000 Main St"
+              formControlName="a1"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Address 2</mat-label>
+            <input
+              matInput
+              placeholder="Suite 123"
+              formControlName="a2"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>City</mat-label>
+            <input
+              matInput
+              placeholder="Fort Worth"
+              formControlName="city"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>State</mat-label>
+            <input
+              matInput
+              placeholder="Texas"
+              formControlName="state"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>zip</mat-label>
+            <input
+              matInput
+              placeholder="76001"
+              formControlName="zip"
+            />
+          </mat-form-field>
+        </div>
+      </form>
+      <div fxFlex fxLayout="row" fxLayoutGap="20px">
+        <h3 fxFlexAlign="center" fxFlex>Locations</h3>
+        <button mat-mini-fab color="primary" (click)="openNewLocation()"><mat-icon>add</mat-icon></button>
+      </div>
+      <div fxFlex fxLayout="row">
+        <mat-slide-toggle (change)="setShowArchivedLocations($event)">Show Archived Locations</mat-slide-toggle>
+      </div>
+      <div fxFlex fxLayout="row">
+        <mat-table [dataSource]="dataSource" matSort fxFlex>
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+              >Name</mat-header-cell
+            >
+            <mat-cell *matCellDef="let element" [ngClass]="!element.active ? 'archived-location': ''">{{ element.name }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="address">
+            <mat-header-cell *matHeaderCellDef>Address</mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="!element.active ? 'archived-location': ''">{{
+              element.address.formatted_address
+            }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="geo">
+            <mat-header-cell *matHeaderCellDef>Geofencing</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <mat-checkbox [checked]="element.geo_enabled" disabled="true"></mat-checkbox>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row
+            *matRowDef="let row; let i = index; columns: displayedColumns"
+            style="cursor: pointer"
+            (click)="openEditLocation(row, true, i)"
+          ></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>
+</div>

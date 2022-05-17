@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<mat-dialog-content>
+  <div fxFlex fxLayout="column" fxLayoutGap="10px">
+    <mat-label>Type: {{ data.type }}</mat-label>
+    <mat-label>Location: {{ data.location | locationName:accounts:false }}</mat-label>
+    <mat-label *ngIf="data.type === 'Daily'">User: {{ data.user | getUserName:users }}</mat-label>
+    <mat-label *ngIf="data.type != 'Daily'">Due: {{ data.expiration | formatDateTZ:accounts:data.location:'M/D/YY' }}</mat-label>
+    <mat-divider></mat-divider>
+    <div class="checklist-container" fxLayout="column">
+      <div class="checklist-item" fxLayoutGap="8px" fxLayout="column" *ngFor="let item of data.tasks">
+        <div fxFlex fxLayout="row" fxLayoutGap="8px" class="checklist-item-row" fxLayoutAlign="start center">
+          <mat-icon *ngIf="!item.complete">check_box_outline_blank</mat-icon>
+          <mat-icon *ngIf="item.complete">check_box</mat-icon>
+          <div fxFlex fxLayout="column">
+            <h3 fxFlex class="task-title">{{ item.title }}</h3>
+            <p fxFlex class="task-desc" *ngIf="item.description && item.description != ''">{{ item.description }}</p>
+          </div>
+          <div fxFlex fxLayout="column" fxLayoutAlign="end center" *ngIf="item.complete">
+            <p fxFlex class="task-title">{{ item.user | getUserName:users }}</p>
+            <p fxFlex class="task-desc">{{ item.completed_date | formatDateTZ:accounts:data.location:'M/D/YY h:mma' }}</p>
+          </div>
+        </div>
+        <div fxFlex fxLayout="row" class="subtask-column" *ngIf="item.subtasks.length > 0">
+          <div fxFlex fxLayout="column" fxLayoutGap="8px">
+            <mat-label fxFlex *ngFor="let sub of item.subtasks">• {{ sub }}</mat-label>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutAlign="end">
+  <button mat-button color="primary" (click)="closeDialog()">Close</button>
+</mat-dialog-actions>

@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>{{ title }} Location</h1>
+<form
+[formGroup]="form"
+fxLayout="column"
+fxLayoutGap="15px"
+mat-dialog-content
+autocomplete="off"
+>
+<mat-form-field>
+  <mat-select placeholder="Select Location" formControlName="location">
+    <mat-optgroup *ngFor="let a of accounts" [label]="a.name">
+      <mat-option *ngFor="let l of a.locations" [value]="setLocationValue(a.id, l.id)" [disabled]="isLocationDisabled({acct: a.id, loc: l.id})">{{l.name}}</mat-option>
+    </mat-optgroup>
+  </mat-select>
+</mat-form-field>
+<h3>Permissions</h3>
+<div fxLayout="row" fxLayoutGap="15px">
+  <mat-checkbox formControlName="inspection" color="primary">Inspections</mat-checkbox>
+  <mat-checkbox formControlName="inventory" color="primary">Inventory</mat-checkbox>
+</div>
+
+<mat-form-field floatLabel="always">
+  <span matPrefix>$ </span>
+  <mat-label>Pay Rate</mat-label>
+  <input matInput placeholder="14" formControlName="rate">
+</mat-form-field>
+<mat-form-field>
+  <mat-select placeholder="Pay Frequency" formControlName="type">
+    <mat-option value="Hourly">Hourly</mat-option>
+    <mat-option value="Weekly">Weekly</mat-option>
+    <mat-option value="SemiMonthly">Semi-Monthly</mat-option>
+    <mat-option value="Monthly">Monthly</mat-option>
+  </mat-select>
+</mat-form-field>
+
+</form>
+<mat-dialog-actions fxLayoutAlign="end">
+  <button mat-button color="primary" (click)="save()" [disabled]="!form.valid">Save</button>
+  <button mat-button color="warn" (click)="delete()" *ngIf="data.editMode">Delete</button>
+</mat-dialog-actions>

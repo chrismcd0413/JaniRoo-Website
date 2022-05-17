@@ -1,0 +1,85 @@
+.header-title {
+  padding-top: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+mat-grid-tile {
+  background: lightblue;
+}
+.grouping {
+  padding: 16px;
+}
+.location-header {
+  background-color: gray;
+}
+.blob {
+  background-color: green;
+  border-radius: 20px;
+  width: 15px;
+  height: 15px;
+  align-self: center;
+}
+.blobr {
+  background-color: red;
+  border-radius: 20px;
+  width: 15px;
+  height: 15px;
+  align-self: center;
+}
+.bloby {
+  background-color: orange;
+  border-radius: 20px;
+  width: 15px;
+  height: 15px;
+  align-self: center;
+}
+.location-table {
+}
+.location-label {
+  padding: 8px;
+  color: white;
+  font-weight: bold;
+}
+.scheduled-today-container {
+  border: 1px solid black;
+  border-radius: 4px;
+  max-height: 350px;
+  overflow: scroll;
+}
+.schedule-item {
+  padding: 8px;
+  border-bottom: 1px solid black;
+}
+.schedule-item:last-child {
+  padding: 8px;
+  border: 0px;
+}
+.cleaner-name {
+  margin: 0px;
+}
+
+.progress-text {
+  margin-bottom: 0px;
+  margin-top: 0px;
+  margin-left: 8px;
+  margin-right: 8px;
+  max-width: fit-content;
+}
+.mat-progress-bar-fill::after {
+  background-color: lightgray;
+}
+.no-results {
+  margin: 0px;
+  font-size: medium;
+  padding: 30px;
+}
+.checklist-item {
+  padding: 8px;
+  border-bottom: 1px solid black;
+  cursor: pointer;
+}
+.checklist-item:last-child {
+  padding: 8px;
+  border: 0px;
+}

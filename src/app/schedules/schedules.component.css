@@ -1,0 +1,56 @@
+.header-controls {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 32px;
+  padding-right: 32px;
+  border-bottom: 1px solid lightgrey;
+}
+/* .back-button{
+  border: 1px solid lightgray;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.forward-button {
+  border: 1px solid lightgray;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  margin-right: 20px;
+} */
+.button-divs {
+  width: 50px;
+}
+.date-label {
+  padding-left: 15px;
+  padding-right: 15px;
+  align-self: center;
+  text-align: center;
+}
+.date-div {
+  border: 1px solid lightgray;
+border-radius: 10px;
+margin-right: 20px;
+}
+.calType{
+  margin-right: 15px;
+  font-size: small;
+  max-width: fit-content;
+}
+.nav-button{
+  width: 45px;
+}
+.editRadio {
+  margin-left: 16px;
+}
+.radioGroup {
+  height: 200px;
+}
+.mat-radio-ripple {
+  display: none;
+}
+/* ::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -1.25em;
+} */

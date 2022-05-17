@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>{{ mode }} Task</h1>
+<mat-dialog-content>
+<div fxFlex fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="25px">
+  <div fxFlex fxLayout="column">
+    <form [formGroup]="form" fxLayout="column" fxLayoutGap="15px">
+      <mat-form-field>
+        <mat-label>Task Title</mat-label>
+        <input matInput formControlName="title">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Task Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+      <mat-checkbox formControlName="photo_required">Photo Required</mat-checkbox>
+    </form>
+  </div>
+  <div fxFlex fxLayout="column">
+    <div fxLayout="row" fxLayoutGap="15px">
+      <form fxFlex [formGroup]="subtaskForm">
+        <mat-form-field fxFlex class="search-field">
+          <mat-label>Add New Subtask</mat-label>
+          <input matInput formControlName="subtask">
+          <button mat-icon-button matSuffix color="primary" (click)="pushNewSubtask()"><mat-icon>add_circle</mat-icon></button>
+
+        </mat-form-field>
+      </form>
+
+    </div>
+    <div fxFlex="100%" fxLayout="row" style="border: 1px solid black; margin-top: 15px; border-radius: 4px;">
+      <p fxFlex style="text-align: center; align-self: center; margin: 0px;" *ngIf="subtasks.length === 0">No Subtasks</p>
+      <div cdkDropList (cdkDropListDropped)="reorderSubtask($event)" fxFlex="100%" fxLayout="column" *ngIf="subtasks.length > 0">
+        <div cdkDrag fxLayout="row" fxLayoutAlign="start center" *ngFor="let subtask of subtasks; let i = index" class="aeTaskSubtaskRow">
+          <p fxFlex style="overflow-wrap: break-word; margin: 0;">{{ subtask }}</p>
+          <mat-icon (click)="removeSubtask(i)" style="cursor: pointer;">delete</mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayoutAlign="end">
+  <button mat-button color="primary" [disabled]="form.invalid" (click)="saveTask()">Save</button>
+  <button mat-button color="warn" *ngIf="data.editMode" (click)="deleteButton()">Delete</button>
+  <button mat-button color="warn" *ngIf="!data.editMode" (click)="close()">Cancel</button>
+</mat-dialog-actions>

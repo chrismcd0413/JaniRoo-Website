@@ -1,0 +1,26 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { LocationNamePipe } from './location-name.pipe';
+import { GetUserNamePipe } from './get-user-name.pipe';
+import { FormatDateTZPipe } from './format-date-tz.pipe';
+import { ChecklistProgressPipe } from './checklist-progress.pipe';
+
+
+@NgModule({
+  declarations: [
+    LocationNamePipe,
+    GetUserNamePipe,
+    FormatDateTZPipe,
+    ChecklistProgressPipe
+  ],
+  imports: [
+    CommonModule
+  ],
+  exports: [
+    LocationNamePipe,
+    GetUserNamePipe,
+    FormatDateTZPipe,
+    ChecklistProgressPipe
+  ]
+})
+export class PipesModule { }

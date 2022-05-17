@@ -1,0 +1,13 @@
+<mat-tab-group selectedIndex="0">
+  <mat-tab label="Manage Users">
+    <app-user-mgt (editing)="setEditing($event)" (profile)="setProfile($event)" *ngIf="!editingUser"></app-user-mgt>
+    <app-edit-user [profile]="profile" (editing)="setEditing($event)" (setProfile)="setProfile($event)" *ngIf="editingUser"></app-edit-user>
+  </mat-tab>
+  <mat-tab label="Manage Accounts">
+    <app-acct-mgt (editing)="setEditingAccount($event)" (account)="setAccount($event)" *ngIf="!editingAccount"></app-acct-mgt>
+    <app-edit-acct (editing)="setEditingAccount($event)" [account]="account" (setAccount)="setAccount($event)" *ngIf="editingAccount"></app-edit-acct>
+  </mat-tab>
+  <mat-tab label="Company Settings">
+    <app-co-settings></app-co-settings>
+  </mat-tab>
+</mat-tab-group>

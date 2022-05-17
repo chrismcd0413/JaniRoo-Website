@@ -1,0 +1,32 @@
+<div fxFlex fxLayout="column" fxLayoutGap="15px">
+  <div fxFlex fxLayout="row" class="headerRow" fxLayoutGap="15px" fxLayoutAlign="start center">
+    <h2>Inventory Overview</h2>
+</div>
+<mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="location">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.name}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+    <mat-cell *matCellDef="let element"><div [class.low_inventory]="getLocationStatus(element.id) === 'Low Inventory'" class="blob"></div>{{ getLocationStatus(element.id) }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="total">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Inventory Items</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ getNumberOfInventoryItems(element.id) }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="last">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Last Update</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ getLastUpdate(element.id) }}</mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openEditDialog(row)" style="cursor: pointer"></mat-row>
+</mat-table>
+
+<mat-paginator #paginator
+[pageSize]="10"
+[pageSizeOptions]="[10,25,50]">
+
+</mat-paginator>
+
+</div>

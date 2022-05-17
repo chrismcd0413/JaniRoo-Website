@@ -1,0 +1,41 @@
+<div fxFlex fxLayout="column" fxLayoutGap="15px">
+  <div fxFlex fxLayout="row" class="header-controls" fxLayoutGap="15px" fxLayoutAlign="center center">
+    <div fxLayout="column" fxFlex>
+      <select #select fxFlex="50px" fxFlexAlign="start center" (change)="setLocation($event)" style="height: 50px; max-width: 200px;">
+        <option selected value="false">All Locations</option>
+        <optgroup *ngFor="let a of accounts" [label]="a.name">
+          <option *ngFor="let l of a.locations" [value]="formatLocation(a, l)">{{ a.name }} - {{ l.name }}</option>
+        </optgroup>
+      </select>
+    </div>
+    <div fxFlex></div>
+    <button mat-mini-fab color="primary" (click)="openNewChecklist()"><mat-icon>add</mat-icon></button>
+</div>
+<mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.title}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="type">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.type }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="location">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Location</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.location | locationName:accounts:false }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="tasks">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Tasks</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.tasks.length }}</mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openEditDialog(row)" style="cursor: pointer"></mat-row>
+</mat-table>
+
+<mat-paginator #paginator
+[pageSize]="10"
+[pageSizeOptions]="[10,25,50]">
+
+</mat-paginator>
+
+</div>

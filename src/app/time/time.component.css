@@ -1,0 +1,10 @@
+.headerRow {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+.dateInputs {
+  max-width: 150px;
+}
+.locationInput {
+  max-width: 275px;
+}
