@@ -10,6 +10,7 @@ import { TemplateChecklist } from '../models/checklists/checklist-template.model
 import { ScheduledShift } from '../models/schedule.model';
 import { User } from '../models/user.model';
 import { UserInfo } from './user-info.service';
+import { Timestamp } from '@firebase/firestore';
 
 @Injectable({ providedIn: 'root' })
 export class FirebaseService {
@@ -213,8 +214,7 @@ export class FirebaseService {
   dashboardFetchActiveRecurringChecklists() {
     return this.fb.collection('Active Checklists', (ref) =>
     ref.where('companyId', '==', this.companyId)
-    .where('complete', '==', false)
-    .where('type', '!=', 'Daily')
+    .where('expiration', '>', Timestamp.fromDate(new Date()))
     ).valueChanges({ idField: 'id'});
   }
   dashboardFetchTodaysTimesheets() {
