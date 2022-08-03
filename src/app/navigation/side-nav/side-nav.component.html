@@ -12,14 +12,18 @@
     <mat-icon>checklist</mat-icon>
     <span class="nav-caption">Checklist Manager</span>
   </a>
+  <a mat-list-item routerLinkActive="activeNav" routerLink="/checklist-viewer" (click)="onClose()">
+    <mat-icon>list_alt</mat-icon>
+    <span class="nav-caption">Checklist Viewer</span>
+  </a>
   <a mat-list-item routerLinkActive="activeNav" routerLink="/timesheets" (click)="onClose()">
     <mat-icon>timer</mat-icon>
     <span class="nav-caption">Time</span>
   </a>
-  <a mat-list-item routerLinkActive="activeNav" routerLink="/signup" (click)="onClose()">
+  <!-- <a mat-list-item routerLinkActive="activeNav" routerLink="/signup" (click)="onClose()">
     <mat-icon>local_atm</mat-icon>
     <span class="nav-caption">Payroll</span>
-  </a>
+  </a> -->
   <a mat-list-item routerLinkActive="activeNav" routerLink="/inventory" (click)="onClose()">
     <mat-icon>cleaning_services</mat-icon>
     <span class="nav-caption">Inventory</span>

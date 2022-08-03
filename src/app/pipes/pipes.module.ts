@@ -4,6 +4,7 @@ import { LocationNamePipe } from './location-name.pipe';
 import { GetUserNamePipe } from './get-user-name.pipe';
 import { FormatDateTZPipe } from './format-date-tz.pipe';
 import { ChecklistProgressPipe } from './checklist-progress.pipe';
+import { ActiveLocationsPipe } from './active-locations.pipe';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { ChecklistProgressPipe } from './checklist-progress.pipe';
     LocationNamePipe,
     GetUserNamePipe,
     FormatDateTZPipe,
-    ChecklistProgressPipe
+    ChecklistProgressPipe,
+    ActiveLocationsPipe
   ],
   imports: [
     CommonModule
@@ -20,7 +22,8 @@ import { ChecklistProgressPipe } from './checklist-progress.pipe';
     LocationNamePipe,
     GetUserNamePipe,
     FormatDateTZPipe,
-    ChecklistProgressPipe
+    ChecklistProgressPipe,
+    ActiveLocationsPipe
   ]
 })
 export class PipesModule { }

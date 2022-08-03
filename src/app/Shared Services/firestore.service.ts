@@ -194,7 +194,15 @@ export class FirebaseService {
   deleteTimesheet(id) {
     return this.fb.collection('Timesheets').doc(id).delete();
   }
+  // CHECKLIST VIEWER
 
+  fetchActiveChecklistsForViewer(start, end) {
+    return this.fb.collection('Active Checklists', (ref) =>
+      ref.where('companyId', '==', this.companyId)
+      .where('query', '<=', end)
+      .where('query', '>=', start)
+      ).valueChanges({ idField: 'id'});
+  }
   // DASHBOARD FUNCTIONS
 
   dashboardFetchLowInventoryItems(){

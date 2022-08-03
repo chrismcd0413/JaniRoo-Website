@@ -9,8 +9,8 @@
     <div class="checklist-container" fxLayout="column">
       <div class="checklist-item" fxLayoutGap="8px" fxLayout="column" *ngFor="let item of data.tasks">
         <div fxFlex fxLayout="row" fxLayoutGap="8px" class="checklist-item-row" fxLayoutAlign="start center">
-          <mat-icon *ngIf="!item.complete">check_box_outline_blank</mat-icon>
-          <mat-icon *ngIf="item.complete">check_box</mat-icon>
+          <mat-icon *ngIf="!item.completed">check_box_outline_blank</mat-icon>
+          <mat-icon *ngIf="item.completed">check_box</mat-icon>
           <div fxFlex fxLayout="column">
             <h3 fxFlex class="task-title">{{ item.title }}</h3>
             <p fxFlex class="task-desc" *ngIf="item.description && item.description != ''">{{ item.description }}</p>

@@ -90,6 +90,7 @@ export class EditLocComponent implements OnInit, AfterViewInit {
         a2: this.data.location.address.address2,
         notes: this.data.location.address.notes,
       });
+      this.tzId = this.data.location.address.tzId;
       this.radius = this.data.location.geo_radius;
       this.setAddress(this.data.location.address.geo);
       console.log(this.data.location.active);

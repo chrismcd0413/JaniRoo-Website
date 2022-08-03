@@ -17,6 +17,10 @@ const routes: Routes = [
     loadChildren: () => import('./checklist/checklist.module').then(m => m.ChecklistModule)
   },
   {
+    path: 'checklist-viewer',
+    loadChildren: () => import('./checklist-viewer/checklist-viewer.module').then(m => m.ChecklistViewerModule)
+  },
+  {
     path: 'inventory',
     loadChildren: () => import('./inventory/inventory.module').then(m => m.InventoryModule)
   },
