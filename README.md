@@ -17,7 +17,7 @@ During my time at JMCleanCo, we ran into a problem of a patchwork of 3rd-party s
 6) Scheduling
 
 # Tech Used
-Typescript
-Angular
-Ionic (app)
-Firebase
+1) Typescript
+2) Angular
+3) Ionic (app)
+4) Firebase
